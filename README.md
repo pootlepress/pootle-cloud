@@ -1,2 +1,2 @@
-# pootle-cloud
-A happy place
+# Pootle Cloud
+A happy place :smiley:
