@@ -5,42 +5,84 @@
  * @version 1.0.0
  */
 jQuery( function ( $ ) {
-	$bd = $( 'body' );
-	$if = $( 'iframe#pcld-app' );
+	var
+		$bd = $( 'body' ),
+		$if = $( 'iframe#pcld-app' ),
+		$loader = $( '#ppb-loading-overlay' ),
+		$mydesigns = $( '#pcld-my-designs' );
+
+	$( '#pcld-template-tabs' ).ppbTabs();
 	pcld = {
-		apiUrl: '',
-		tkn: null,
+		// Post message actions
+		postMsgActions: {
+			loggedIn: function() {
+				$bd.addClass( 'pcld-logged-in' );
+				$if.fadeOut();
+			},
+			templates: function ( tpls ) {
+				pcld.templates = tpls;
+				$mydesigns.html( '' );
+				for ( var i = 0; i < tpls.length; i ++ ) {
+					var tpl = tpls[i];
+					ppbDesignTpls[ tpl.name ] = tpl;
+					var $tpl = $( '<div class="ppb-tpl" data-id="' + tpl.name + '"></div>' );
+					$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
+					$mydesigns.append( $tpl );
+				}
+			},
+			doneLoading: function() {
+				$loader.fadeOut();
+			}
+		},
 		saveRow: function() {
+
 			if ( $bd.hasClass( 'pcld-logged-in' ) ) {
 
 				var tpl = JSON.parse( ppbTemplateFromRow( ppbRowI ) );
 				tpl.name = prompt( 'What would you like to name this template?', 'untitled' );
 
-				pcld.appWin.postMessage(
-					{
-						request: 'saveTemplate',
-						tpl: tpl
-					}, '*'
-				)
+				pcld.appWin.postMessage( {
+					pcldCallback: 'saveTemplate',
+					payload: tpl
+				}, '*' );
+
+				$loader.fadeIn();
+
 			} else {
+
 				alert( 'You need to login to your pootle cloud account before you can save templates.' );
+
 			}
+
 		},
 		loginPopup: function(){
+
 			$if.fadeIn();
+
 		},
 		receiveMessage: function( e ) {
-			var msg = e[ e.message ? 'message' : 'data' ];
-			if ( e.origin.replace( /http[s]?:\/\//, '' ).indexOf( pcldData.appUrl ) ) {
-				if ( 'loggedIn' == msg ) {
-					$bd.addClass( 'pcld-logged-in' );
-					$if.fadeOut();
+
+			var
+				callback, payload,
+				msg = e[ e.message ? 'message' : 'data' ];
+
+			if ( e.origin.replace( /http[s]?:\/\//, '' ).indexOf( pcldData.appUrl ) && msg.pcldCallback ) {
+
+				callback = msg.pcldCallback;
+				payload = msg.payload;
+
+				if ( typeof pcld.postMsgActions[callback] === 'function' ) {
+
+					// Call post message action callback
+					pcld.postMsgActions[callback]( payload );
 					pcld.appWin = e.source;
-					console.log( 'Message from app' );
-					console.log( msg, e );
+
 				}
+
 			}
+
 		}
+
 	};
 
 	window.addEventListener( 'message', pcld.receiveMessage, false );

@@ -90,6 +90,10 @@ class Pootle_Cloud{
 			//Adding front end JS and CSS in /assets folder
 			add_action( 'pootlepb_le_dialogs', array( $this, 'dialogs' ) );
 
+			// Tempalte tabs
+			add_action( 'before_design_templates', array( $this, 'template_tab_wrap_open' ) );
+			add_action( 'after_design_templates', array( $this, 'template_tab_wrap_close' ) );
+
 			//Adding front end JS and CSS in /assets folder
 			add_action( 'pootlepb_row_settings_custom_field_' . self::$token . '_save_btn', array( $this, 'save_btn' ) );
 		}
@@ -110,6 +114,25 @@ class Pootle_Cloud{
 		);
 
 		return $fields;
+	}
+
+	function template_tab_wrap_open () {
+		?>
+		<div id="pcld-template-tabs">
+			<ul>
+				<li><a href='#pcld-pootle-designs'>Pootle designs</a></li>
+				<li><a href='#pcld-my-designs'>My designs</a></li>
+			</ul>
+			<div class="template" id="pcld-pootle-designs">
+		<?php
+	}
+
+	function template_tab_wrap_close () {
+		?>
+			</div>
+			<div class="template" id="pcld-my-designs"></div>
+		</div>
+		<?php
 	}
 
 	/**
