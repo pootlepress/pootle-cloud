@@ -68,7 +68,7 @@ class Pootle_Cloud{
 		self::$version =   '1.0.0';
 
 		// @TODO Remove this before releasing.
-		$this->app_url = defined( 'PCLD_DEBUG' ) && PCLD_DEBUG ? 'http://localhost:4200/' : 'http://pootle-cloud.firebase.io';
+		$this->app_url = defined( 'PCLD_DEBUG' ) && PCLD_DEBUG ? 'http://localhost:4200/' : 'https://pootle-cloud.firebaseapp.com/';
 
 		add_action( 'init', array( $this, 'init' ) );
 	} // End __construct()
