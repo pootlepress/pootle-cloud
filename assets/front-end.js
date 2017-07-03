@@ -18,6 +18,9 @@ jQuery( function ( $ ) {
 			loggedIn: function() {
 				$bd.addClass( 'pcld-logged-in' );
 				$if.fadeOut();
+				if ( pcld.showLogin ) {
+					ppbNotify( 'Pootle Cloud: Log in successful' );
+				}
 			},
 			templates: function ( tpls ) {
 				pcld.templates = tpls;
@@ -47,6 +50,9 @@ jQuery( function ( $ ) {
 				}, '*' );
 
 				$loader.fadeIn();
+				if ( pcld.showLogin ) {
+					ppbNotify( 'Pootle Cloud: Row saved successfully' );
+				}
 
 			} else {
 
@@ -57,6 +63,7 @@ jQuery( function ( $ ) {
 		},
 		loginPopup: function(){
 
+			pcld.showLogin = true;
 			$if.fadeIn();
 
 		},

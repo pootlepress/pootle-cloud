@@ -55,39 +55,10 @@ iframe#pcld-app {
 #pcld-template-tabs > div {
 	clear: both;
 	column-count: 3;
-	column-gap: 2px;
+	column-gap: 0;
 	padding: 1.4em 0.7em;
-	text-align: center;
 }
 
-#pcld-template-tabs div .ppb-tpl {
-	margin: 0 0.7em 1.4em;
-	-webkit-column-break-inside: avoid;
-	page-break-inside: avoid;
-	break-inside: avoid;
-	border: 1px solid #aaa;
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-}
-
-#pcld-template-tabs div .ppb-tpl:after {
-	transition: opacity 0.25s;
-	content: attr( data-id );
-	display: block;
-	padding: 16px;
-	font: 16px/16px sans-serif;
-	color: #333;
-	position: relative;
-}
-
-#pcld-template-tabs div .ppb-tpl:hover:after {
-	opacity: 0.5;
-}
-
-#pcld-template-tabs div .ppb-tpl img {
-	width: 100%;
-	display: block;
-	margin: 0;
-}
 
 #pootlepb-design-templates.pootlepb-dialog {
 	column-count: initial;
