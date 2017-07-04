@@ -7,7 +7,7 @@
 jQuery( function ( $ ) {
 	var
 		$bd = $( 'body' ),
-		$if = $( 'iframe#pcld-app' ),
+		$appWrap = $( '#pcld-app-wrap' ),
 		$loader = $( '#ppb-loading-overlay' ),
 		$mydesigns = $( '#pcld-my-designs' );
 
@@ -15,29 +15,39 @@ jQuery( function ( $ ) {
 	pcld = {
 		// Post message actions
 		postMsgActions: {
-			loggedIn: function() {
+			loggedIn: function () {
 				$bd.addClass( 'pcld-logged-in' );
-				$if.fadeOut();
+				$appWrap.fadeOut();
 				if ( pcld.showLogin ) {
 					ppbNotify( 'Pootle Cloud: Log in successful' );
 				}
+			},
+			loggedOut: function () {
+				$bd.removeClass( 'pcld-logged-in' );
 			},
 			templates: function ( tpls ) {
 				pcld.templates = tpls;
 				$mydesigns.html( '' );
 				for ( var i = 0; i < tpls.length; i ++ ) {
 					var tpl = tpls[i];
-					ppbDesignTpls[ tpl.name ] = tpl;
+					ppbDesignTpls[tpl.name] = tpl;
 					var $tpl = $( '<div class="ppb-tpl" data-id="' + tpl.name + '"></div>' );
-					$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
+					if ( ! tpl.img ) {
+						var
+							style = JSON.parse( tpl.style ),
+							color = style.background || style.grad_col1 || style.grad_col2;
+						$tpl.html( '<div style="padding-top:52%;background:' + color + '"></div>' );
+					} else {
+						$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
+					}
 					$mydesigns.append( $tpl );
 				}
 			},
-			doneLoading: function() {
+			doneLoading: function () {
 				$loader.fadeOut();
 			}
 		},
-		saveRow: function() {
+		saveRow: function () {
 
 			if ( $bd.hasClass( 'pcld-logged-in' ) ) {
 
@@ -50,9 +60,7 @@ jQuery( function ( $ ) {
 				}, '*' );
 
 				$loader.fadeIn();
-				if ( pcld.showLogin ) {
-					ppbNotify( 'Pootle Cloud: Row saved successfully' );
-				}
+				ppbNotify( 'Pootle Cloud: Template saved successfully' );
 
 			} else {
 
@@ -61,17 +69,25 @@ jQuery( function ( $ ) {
 			}
 
 		},
-		loginPopup: function(){
+		manage: function () {
+			$appWrap.fadeIn();
+		},
+		logout: function () {
 
-			pcld.showLogin = true;
-			$if.fadeIn();
+			pcld.appWin.postMessage( {
+				pcldCallback: 'logout'
+			}, '*' );
 
 		},
-		receiveMessage: function( e ) {
+		loginPopup: function () {
+			pcld.showLogin = true;
+			$appWrap.fadeIn();
+		},
+		receiveMessage: function ( e ) {
 
 			var
 				callback, payload,
-				msg = e[ e.message ? 'message' : 'data' ];
+				msg = e[e.message ? 'message' : 'data'];
 
 			if ( e.origin.replace( /http[s]?:\/\//, '' ).indexOf( pcldData.appUrl ) && msg.pcldCallback ) {
 

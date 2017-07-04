@@ -4,30 +4,36 @@
  * @package Pootle_Cloud
  * @version 1.0.0
  */
-iframe#pcld-app {
+#pcld-app-wrap, #pcld-app {
 	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	z-index: 1000000;
+	background: rgba(0,0,0,0.25);
+	margin: auto;
+}
+iframe#pcld-app {
 	background: #fff;
 	width: 700px;
 	height: 500px;
-	margin: auto;
 }
 
-#pootle-cloud-login {
+#pootlepb-pootle-cloud-row-tab button {
+	display: block;
+	width: 100%;
+	margin: 0 auto 1em;
 	cursor: pointer;
 }
 
-.pcld-logged-in #pootle-cloud-login,
-#pootle-cloud-save-row {
-	display: none !important;
+.pcld-logged-in #pootle-cloud-new-user,
+#pootle-cloud-user-actions {
+	display: none;
 }
 
-.pcld-logged-in #pootle-cloud-save-row {
-	display: block !important;
+.pcld-logged-in #pootle-cloud-user-actions {
+	display: block;
 }
 
 #pcld-template-tabs ul {

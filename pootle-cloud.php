@@ -83,6 +83,7 @@ class Pootle_Cloud{
 
 			// Row settings field
 			add_filter( 'pootlepb_row_settings_fields', array( $this, 'row_settings_fields' ) );
+			add_filter( 'pootlepb_le_row_block_tabs', array( $this, 'row_settings_tab' ) );
 
 			//Adding front end JS and CSS in /assets folder
 			add_action( 'pootlepb_enqueue_admin_scripts', array( $this, 'enqueue' ) );
@@ -100,6 +101,20 @@ class Pootle_Cloud{
 	} // End enqueue()
 
 	/**
+	 * Adds row settings panel tab
+	 * @param array $tabs Tabs to output in row settings panel
+	 * @return array Tabs
+	 * @filter pootlepb_le_row_block_tabs
+	 */
+	public function row_settings_tab( $tabs ) {
+		$tabs['pootle-cloud'] = array(
+			'label'    => 'Pootle cloud',
+			'priority' => 2,
+		);
+		return $tabs;
+	} // End enqueue()
+
+	/**
 	 * Adds row settings panel fields
 	 * @param array $fields Fields to output in row settings panel
 	 * @return array Fields
@@ -107,10 +122,10 @@ class Pootle_Cloud{
 	 */
 	public function row_settings_fields( $fields ) {
 		$fields[ self::$token . '_save' ] = array(
-			'name' => 'Pootle cloud',
+			'name' => '',
 			'type' => self::$token . '_save_btn',
 			'priority' => 1,
-			'tab' => 'advanced',
+			'tab' => 'pootle-cloud',
 		);
 
 		return $fields;
@@ -141,8 +156,15 @@ class Pootle_Cloud{
 	 */
 	public function save_btn() {
 		?>
-			<button onclick="pcld.saveRow()" id="pootle-cloud-save-row">Save row as template</button>
-			<a onclick="pcld.loginPopup()" id="pootle-cloud-login">Login in to your pootle cloud account</a>
+		<div id="pootle-cloud-user-actions">
+			<button onclick="pcld.saveRow()" id="pootle-cloud-save-row">Save template</button>
+			<button onclick="pcld.manage()" id="pootle-cloud-manage">Manage templates</button>
+			<button onclick="pcld.logout()" id="pootle-cloud-logout">Logout</button>
+		</div>
+		<div id="pootle-cloud-new-user">
+			Login to pootle cloud to start saving templates.
+			<button onclick="pcld.loginPopup()" id="pootle-cloud-login">Login</button>
+		</div>
 		<?php
 	}
 
@@ -152,7 +174,9 @@ class Pootle_Cloud{
 	 */
 	public function dialogs() {
 		?>
-		<iframe style="display: none;" src="<?php echo $this->app_url ?>" frameborder="0" id="pcld-app"></iframe>
+		<div id="pcld-app-wrap" style="display: none;" onclick="jQuery(this).fadeToggle()">
+			<iframe src="<?php echo $this->app_url ?>" frameborder="0" id="pcld-app"></iframe>
+		</div>
 		<?php
 	}
 
