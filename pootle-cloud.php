@@ -108,7 +108,7 @@ class Pootle_Cloud{
 	 */
 	public function row_settings_tab( $tabs ) {
 		$tabs['pootle-cloud'] = array(
-			'label'    => 'Pootle cloud',
+			'label'    => 'Save to Pootle cloud',
 			'priority' => 2,
 		);
 		return $tabs;
@@ -157,7 +157,7 @@ class Pootle_Cloud{
 	public function save_btn() {
 		?>
 		<div id="pootle-cloud-user-actions">
-			<button onclick="pcld.saveRow()" id="pootle-cloud-save-row">Save template</button>
+			<button onclick="pcld.saveRow()" id="pootle-cloud-save-row">Save as Design Template</button>
 			<button onclick="pcld.manage()" id="pootle-cloud-manage">Manage templates</button>
 			<button onclick="pcld.logout()" id="pootle-cloud-logout">Logout</button>
 		</div>
