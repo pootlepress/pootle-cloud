@@ -9,7 +9,42 @@ jQuery( function ( $ ) {
 		$bd = $( 'body' ),
 		$appWrap = $( '#pcld-app-wrap' ),
 		$loader = $( '#ppb-loading-overlay' ),
-		$mydesigns = $( '#pcld-my-designs' );
+		$mydesigns = $( '#pcld-my-designs' ),
+		$nameDlg = $( '#pcld-tpl-name-dlg'),
+		$tplName = $( '#pcld-tpl-name' );
+
+	$nameDlg.ppbDialog( {
+		dialogClass: 'ppb-dialog-wilson',
+		autoOpen: false,
+		draggable: false,
+		resizable: false,
+		title: 'Template name',
+		width: 'auto',
+		height: 'auto',
+		buttons: {
+			'Create Template' : function () {
+				var tpl = JSON.parse( ppbTemplateFromRow( ppbRowI ) );
+
+				tpl.name = $tplName.val();
+
+				if ( ! tpl.name ) {
+					return alert( 'Please type in a name...' );
+				}
+
+				pcld.appWin.postMessage( {
+					pcldCallback: 'saveTemplate',
+					payload: tpl
+				}, '*' );
+
+				$loader.fadeIn();
+				ppbNotify( 'Pootle Cloud: Template saved successfully' );
+
+				$tplName.val( '' );
+
+				$nameDlg.ppbDialog( 'close' );
+			}
+		}
+	} );
 
 	$( '#pcld-template-tabs' ).ppbTabs();
 	pcld = {
@@ -51,16 +86,7 @@ jQuery( function ( $ ) {
 
 			if ( $bd.hasClass( 'pcld-logged-in' ) ) {
 
-				var tpl = JSON.parse( ppbTemplateFromRow( ppbRowI ) );
-				tpl.name = prompt( 'What would you like to name this template?', 'untitled' );
-
-				pcld.appWin.postMessage( {
-					pcldCallback: 'saveTemplate',
-					payload: tpl
-				}, '*' );
-
-				$loader.fadeIn();
-				ppbNotify( 'Pootle Cloud: Template saved successfully' );
+				$nameDlg.ppbDialog( 'open' );
 
 			} else {
 

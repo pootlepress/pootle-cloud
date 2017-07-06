@@ -15,9 +15,26 @@
 	margin: auto;
 }
 iframe#pcld-app {
+	z-index: 0;
 	background: #fff;
 	width: 1024px;
 	height: 700px;
+}
+
+#pcld-app-wrap > i {
+	display: block;
+	float:right;
+	font-size: 35px;
+	color: #fff;
+	padding: 11px;
+	position: relative;
+	z-index: 7;
+	cursor: pointer;
+}
+
+#pcld-tpl-name-dlg {
+	text-align: center;
+	padding: 1em;
 }
 
 #pootlepb-pootle-cloud-row-tab button {

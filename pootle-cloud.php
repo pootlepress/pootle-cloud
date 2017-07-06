@@ -175,7 +175,13 @@ class Pootle_Cloud{
 	public function dialogs() {
 		?>
 		<div id="pcld-app-wrap" style="display: none;" onclick="jQuery(this).fadeToggle()">
+			<i class="fa fa-close"></i>
 			<iframe src="<?php echo $this->app_url ?>" frameborder="0" id="pcld-app"></iframe>
+		</div>
+
+		<div id="pcld-tpl-name-dlg" style="display: none;">
+			<h3>What would you like to name this template?</h3>
+			<input type="text" id="pcld-tpl-name">
 		</div>
 		<?php
 	}
