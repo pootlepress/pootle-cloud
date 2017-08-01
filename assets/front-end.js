@@ -75,6 +75,7 @@ jQuery( function ( $ ) {
 					} else {
 						$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
 					}
+					$tpl.append( '<i class="fa fa-search"></i>' );
 					$mydesigns.append( $tpl );
 				}
 			},

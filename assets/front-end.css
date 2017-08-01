@@ -17,8 +17,8 @@
 iframe#pcld-app {
 	z-index: 0;
 	background: #fff;
-	width: 1024px;
-	height: 700px;
+	width: calc( 100vw - 50px );
+	height: calc( 100vh - 50px );
 }
 
 #pcld-app-wrap > i {
