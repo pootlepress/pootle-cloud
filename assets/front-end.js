@@ -71,7 +71,7 @@ jQuery( function ( $ ) {
 						var
 							style = JSON.parse( tpl.style ),
 							color = style.background || style.grad_col1 || style.grad_col2;
-						$tpl.html( '<div style="padding-top:52%;background:' + color + '"></div>' );
+						$tpl.html( '<div class="ppb-tpl-prev" style="padding-top:52%;background:' + color + '"></div>' );
 					} else {
 						$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
 					}

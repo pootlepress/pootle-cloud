@@ -145,7 +145,7 @@ class Pootle_Cloud{
 	function template_tab_wrap_close () {
 		?>
 			</div>
-			<div class="template" id="pcld-my-designs"></div>
+			<div class="template templates-wrap" id="pcld-my-designs"></div>
 		</div>
 		<?php
 	}

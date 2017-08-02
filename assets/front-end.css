@@ -75,17 +75,7 @@ iframe#pcld-app {
 	background: #fff;
 }
 
-#pcld-template-tabs > div {
-	clear: both;
-	column-count: 3;
-	column-gap: 0;
-	padding: 1.4em 0.7em;
-}
-
-
 #pootlepb-design-templates.pootlepb-dialog {
-	column-count: initial;
-	padding: 0;
 	margin-top: 2px;
 	border: 3px solid #eee
 }
