@@ -2,10 +2,10 @@
 /*
 Plugin Name: Pootle Cloud
 Plugin URI: http://pootlepress.com/
-Description: Boilerplate for fast track Pootle Page Builder Addon Development
-Author: Shramee
+Description: A happy place :)
+Author: Pootlepress
 Version: 1.0.0
-Author URI: http://shramee.com/
+Author URI: http://pootlepress.com/
 @developer shramee <shramee.srivastav@gmail.com>
 */
 
@@ -145,7 +145,11 @@ class Pootle_Cloud{
 	function template_tab_wrap_close () {
 		?>
 			</div>
-			<div class="template templates-wrap" id="pcld-my-designs"></div>
+			<div class="template templates-wrap" id="pcld-my-designs">
+				<h4 style="text-align:center">
+					Please <a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a> and save some templates.
+				</h4>
+			</div>
 		</div>
 		<?php
 	}
