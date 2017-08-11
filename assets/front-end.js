@@ -49,6 +49,29 @@ jQuery( function ( $ ) {
 	$( '#pcld-template-tabs' ).ppbTabs();
 	pcld = {
 		// Post message actions
+		populateTemplates: function( $templates, tpls ) {
+			$templates.html( '' );
+			for ( var i = 0; i < tpls.length; i ++ ) {
+				var tpl = tpls[i];
+				ppbDesignTpls[tpl.name] = tpl;
+				var $tpl = $( '<div class="ppb-tpl" data-id="' + tpl.name + '"></div>' );
+				if ( ! tpl.img ) {
+					var
+						style = JSON.parse( tpl.style ),
+						color = style.background || style.grad_col1 || style.grad_col2;
+					$tpl.html( '<div class="ppb-tpl-prev" style="padding-top:52%;background:' + color + '"></div>' );
+				} else {
+					$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
+				}
+				$tpl.append( '<i class="fa fa-search"></i>' );
+				$templates.append( $tpl );
+			}
+			$templates.append(
+				'<h4>Please ' +
+				'<a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a>' +
+				' and save some templates.</h4>'
+			);
+		},
 		postMsgActions: {
 			loggedIn: function () {
 				$bd.addClass( 'pcld-logged-in' );
@@ -62,22 +85,7 @@ jQuery( function ( $ ) {
 			},
 			templates: function ( tpls ) {
 				pcld.templates = tpls;
-				$mydesigns.html( '' );
-				for ( var i = 0; i < tpls.length; i ++ ) {
-					var tpl = tpls[i];
-					ppbDesignTpls[tpl.name] = tpl;
-					var $tpl = $( '<div class="ppb-tpl" data-id="' + tpl.name + '"></div>' );
-					if ( ! tpl.img ) {
-						var
-							style = JSON.parse( tpl.style ),
-							color = style.background || style.grad_col1 || style.grad_col2;
-						$tpl.html( '<div class="ppb-tpl-prev" style="padding-top:52%;background:' + color + '"></div>' );
-					} else {
-						$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
-					}
-					$tpl.append( '<i class="fa fa-search"></i>' );
-					$mydesigns.append( $tpl );
-				}
+				pcld.populateTemplates( $mydesigns, tpls );
 			},
 			doneLoading: function () {
 				$loader.fadeOut();
@@ -100,7 +108,6 @@ jQuery( function ( $ ) {
 			$appWrap.fadeIn();
 		},
 		logout: function () {
-
 			pcld.appWin.postMessage( {
 				pcldCallback: 'logout'
 			}, '*' );
