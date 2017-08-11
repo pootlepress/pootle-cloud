@@ -10,7 +10,8 @@ jQuery( function ( $ ) {
 		$appWrap = $( '#pcld-app-wrap' ),
 		$loader = $( '#ppb-loading-overlay' ),
 		$mydesigns = $( '#pcld-my-designs' ),
-		$nameDlg = $( '#pcld-tpl-name-dlg'),
+		$communitydesigns = $( '#pcld-comm-designs' ),
+		$nameDlg = $( '#pcld-tpl-name-dlg' ),
 		$tplName = $( '#pcld-tpl-name' );
 
 	$nameDlg.ppbDialog( {
@@ -22,7 +23,7 @@ jQuery( function ( $ ) {
 		width: 'auto',
 		height: 'auto',
 		buttons: {
-			'Create Template' : function () {
+			'Create Template': function () {
 				var tpl = JSON.parse( ppbTemplateFromRow( ppbRowI ) );
 
 				tpl.name = $tplName.val();
@@ -49,7 +50,7 @@ jQuery( function ( $ ) {
 	$( '#pcld-template-tabs' ).ppbTabs();
 	pcld = {
 		// Post message actions
-		populateTemplates: function( $templates, tpls ) {
+		populateTemplates: function ( $templates, tpls ) {
 			$templates.html( '' );
 			for ( var i = 0; i < tpls.length; i ++ ) {
 				var tpl = tpls[i];
@@ -66,11 +67,6 @@ jQuery( function ( $ ) {
 				$tpl.append( '<i class="fa fa-search"></i>' );
 				$templates.append( $tpl );
 			}
-			$templates.append(
-				'<h4>Please ' +
-				'<a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a>' +
-				' and save some templates.</h4>'
-			);
 		},
 		postMsgActions: {
 			loggedIn: function () {
@@ -86,6 +82,12 @@ jQuery( function ( $ ) {
 			templates: function ( tpls ) {
 				pcld.templates = tpls;
 				pcld.populateTemplates( $mydesigns, tpls );
+				$mydesigns.append(
+					'<h4>Please ' +
+					'<a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a>' +
+					' and save some templates.</h4>'
+				);
+
 			},
 			doneLoading: function () {
 				$loader.fadeOut();
@@ -141,6 +143,18 @@ jQuery( function ( $ ) {
 		}
 
 	};
+
+	$.get( 'https://pootle-cloud.firebaseio.com/comm.json', function ( data ) {
+		if( typeof data === 'object' && data ) {
+			var tpls = [];
+			for ( var tpl in data ) {
+				tpls.push( data[tpl] );
+			}
+			pcld.populateTemplates( $communitydesigns, tpls );
+		} else {
+			console.error( 'Failed to get community templates data' );
+		}
+	} );
 
 	window.addEventListener( 'message', pcld.receiveMessage, false );
 } );

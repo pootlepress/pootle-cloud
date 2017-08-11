@@ -145,14 +145,14 @@ class Pootle_Cloud{
 	function template_tab_wrap_close () {
 		?>
 			</div>
-			<div class="template templates-wrap" id="pcld-comm-designs">
+			<div class="template pcld-tpls templates-wrap" id="pcld-comm-designs">
 				<h4>
 					Couldn't find any community templates, please
 					<a href="https://www.pootlepress.com/support-form/" style="color: #28d">contact support</a>
 					if your internet connection is working.
 				</h4>
 			</div>
-			<div class="template templates-wrap" id="pcld-my-designs">
+			<div class="template pcld-tpls templates-wrap" id="pcld-my-designs">
 				<h4>
 					Please <a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a> and save some templates.
 				</h4>
