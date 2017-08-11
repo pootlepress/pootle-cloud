@@ -67,7 +67,6 @@ class Pootle_Cloud{
 		self::$path    =   plugin_dir_path( $file );
 		self::$version =   '1.0.0';
 
-		// @TODO Remove this before releasing.
 		$this->app_url = defined( 'PCLD_DEBUG' ) && PCLD_DEBUG ? 'http://localhost:4200/' : 'https://pootle-cloud.firebaseapp.com/';
 
 		add_action( 'init', array( $this, 'init' ) );
@@ -136,6 +135,7 @@ class Pootle_Cloud{
 		<div id="pcld-template-tabs">
 			<ul>
 				<li><a href='#pcld-pootle-designs'>Pootle designs</a></li>
+				<li><a href='#pcld-comm-designs'>Community designs</a></li>
 				<li><a href='#pcld-my-designs'>My designs</a></li>
 			</ul>
 			<div class="template" id="pcld-pootle-designs">
@@ -145,8 +145,15 @@ class Pootle_Cloud{
 	function template_tab_wrap_close () {
 		?>
 			</div>
+			<div class="template templates-wrap" id="pcld-comm-designs">
+				<h4>
+					Couldn't find any community templates, please
+					<a href="https://www.pootlepress.com/support-form/" style="color: #28d">contact support</a>
+					if your internet connection is working.
+				</h4>
+			</div>
 			<div class="template templates-wrap" id="pcld-my-designs">
-				<h4 style="text-align:center">
+				<h4>
 					Please <a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a> and save some templates.
 				</h4>
 			</div>
