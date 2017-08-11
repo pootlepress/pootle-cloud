@@ -14,6 +14,7 @@
 	background: rgba(0,0,0,0.25);
 	margin: auto;
 }
+
 iframe#pcld-app {
 	z-index: 0;
 	background: #fff;
@@ -57,6 +58,8 @@ iframe#pcld-app {
 	width: 100%;
 	height: auto;
 	display: flex;
+	background: #eee;
+	padding: 0 3px;
 }
 
 #pcld-template-tabs ul li {
@@ -68,7 +71,9 @@ iframe#pcld-app {
 	text-align: center;
 	display:block;
 	color: #333;
-	background: #eee;
+	border-radius: 5px 5px 0 0;
+	background: #ddd;
+	margin: 7px 4px 0;
 }
 
 #pcld-template-tabs ul .ppb-state-active a {
@@ -77,5 +82,12 @@ iframe#pcld-app {
 
 #pootlepb-design-templates.pootlepb-dialog {
 	margin-top: 2px;
-	border: 3px solid #eee
+}
+
+#pcld-my-designs > h4 {
+	text-align: center;
+}
+
+#pcld-my-designs > .ppb-tpl ~ h4 {
+	display: none;
 }
