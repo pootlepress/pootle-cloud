@@ -97,14 +97,25 @@ iframe#pcld-app {
 }
 
 .tpl-author {
-	padding: 0.25em 0.5em;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+	font-size: 12px;
 	background: rgba(255,255,255,0.5);
-	color: #222;
-	transition: 0.5s top;
+	color: #767;
+	padding-left: 5px;
+}
+
+#pootlepb-design-templates .ppb-tpl .fa-heart.top-left-icon {
+	top: 45px;
+	background: none;
+	background: #fff;
+	color: #000;
+	opacity: 0.7;
+}
+
+#pootlepb-design-templates .ppb-tpl .fa-heart.top-left-icon:before {
+	color: #f44;
+	position: absolute;
+	right: -5px;
+	text-shadow: 1px -1px 0 #fff, 1px 1px 0 #fff, 0px -2px 0 #fff;
 }
 
 .ppb-tpl:hover .tpl-author {

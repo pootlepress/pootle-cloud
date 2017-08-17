@@ -32,10 +32,7 @@ jQuery( function ( $ ) {
 					return alert( 'Please type in a name...' );
 				}
 
-				pcld.appWin.postMessage( {
-					pcldCallback: 'saveTemplate',
-					payload: tpl
-				}, '*' );
+				pcld.appMsg( 'saveTemplate', tpl );
 
 				$loader.fadeIn();
 				ppbNotify( 'Pootle Cloud: Template saved successfully' );
@@ -67,12 +64,38 @@ jQuery( function ( $ ) {
 				} else {
 					$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
 				}
-				callback( tpl, $tpl );
+
+				$tpl.append( '<div class="label">' + tpl.name + '</div>' );
+
 				$tpl.append( '<i class="fa fa-search"></i>' );
+
+				callback( tpl, $tpl );
+
 				$templates.append( $tpl );
 			}
 		},
+
+		commTplExtraMarkup: function( tpl, $tpl ) {
+			if ( tpl.author ) {
+				var $author = $( '<span/>' ).addClass( 'tpl-author' );
+				if ( tpl.authorLink ) {
+					$author.html( '<a href="' + tpl.authorLink + '">' + tpl.author + '</a>' );
+				} else {
+					$author.html( tpl.author );
+				}
+				$tpl.find('.label').append( $author );
+				if ( tpl.description ) {
+					$tpl.append( '<span class="desc">' + tpl.description + '</span>' );
+				}
+
+				if ( ! tpl.love ) tpl.love = 0;
+				$tpl.append( '<i class="fa fa-heart top-left-icon">' + tpl.love + '</i>' );
+
+			}
+		},
+
 		postMsgActions: {
+
 			loggedIn: function () {
 				$bd.addClass( 'pcld-logged-in' );
 				$appWrap.fadeOut();
@@ -80,9 +103,16 @@ jQuery( function ( $ ) {
 					ppbNotify( 'Pootle Cloud: Log in successful' );
 				}
 			},
+
+			userLoves: function ( tpls ) {
+				pcld.userLoves = tpls;
+				pcld.postMsgActions.commTpls( pcld.contibTpls );
+			},
+
 			loggedOut: function () {
 				$bd.removeClass( 'pcld-logged-in' );
 			},
+
 			templates: function ( tpls ) {
 				pcld.templates = tpls;
 				pcld.populateTemplates( $mydesigns, tpls );
@@ -93,10 +123,63 @@ jQuery( function ( $ ) {
 				);
 
 			},
+
+			commTpls: function (tpls) {
+				pcld.contibTpls = tpls;
+
+				var
+					lovedTpls = [],
+					lovelyTpls = [],
+					newTpls = [];
+
+				pcld.userLoves = pcld.userLoves ? pcld.userLoves : {};
+				for ( var i = 0; i < tpls.length; i ++ ) {
+					var tpl = tpls[i];
+					if ( pcld.userLoves[tpl.name] ) {
+						lovedTpls.push( tpl );
+					} else if ( 1 < tpl.love ) {
+						lovelyTpls.push( tpl );
+					} else {
+						newTpls.push( tpl );
+					}
+				}
+
+				$communitydesigns.html( '' );
+
+				if ( lovedTpls.length ) {
+					$communitydesigns.append( '<h2>Templates you love</h2>' );
+
+					var $div = $( '<div class="templates-wrap"></div>' );
+					pcld.populateTemplates( $div, lovedTpls, pcld.commTplExtraMarkup );
+					$communitydesigns.append( $div );
+				}
+
+				if ( lovelyTpls.length ) {
+					$communitydesigns.append( '<h2>Loved templates</h2>' );
+					$communitydesigns.append( '<h4>Be sure to share some love if you like these!</h4>' );
+
+					$div = $( '<div class="templates-wrap"></div>' );
+					pcld.populateTemplates( $div, lovelyTpls, pcld.commTplExtraMarkup );
+					$communitydesigns.append( $div );
+				}
+
+				if ( newTpls.length ) {
+					$communitydesigns.append( '<h2>New templates</h2>' );
+					$communitydesigns.append( '<h4>These templates need some love before they can show in loved templates section.</h4>' );
+
+					$div = $( '<div class="templates-wrap"></div>' );
+					pcld.populateTemplates( $div, newTpls, pcld.commTplExtraMarkup );
+					$communitydesigns.append( $div );
+				}
+
+			},
+
 			doneLoading: function () {
 				$loader.fadeOut();
 			}
+
 		},
+
 		saveRow: function () {
 
 			if ( $bd.hasClass( 'pcld-logged-in' ) ) {
@@ -110,19 +193,27 @@ jQuery( function ( $ ) {
 			}
 
 		},
+
 		manage: function () {
 			$appWrap.fadeIn();
 		},
-		logout: function () {
-			pcld.appWin.postMessage( {
-				pcldCallback: 'logout'
-			}, '*' );
 
+		logout: function () {
+			pcld.appMsg( { pcldCallback: 'logout' }, '*' );
 		},
+
 		loginPopup: function () {
 			pcld.showLogin = true;
 			$appWrap.fadeIn();
 		},
+
+		appMsg: function ( cb, payload ) {
+			pcld.appWin.postMessage( {
+				pcldCallback: cb,
+				payload: payload
+			}, '*' );
+		},
+
 		receiveMessage: function ( e ) {
 
 			var
@@ -141,37 +232,14 @@ jQuery( function ( $ ) {
 					pcld.appWin = e.source;
 
 				}
-
 			}
-
 		}
 
 	};
 
-	$.get( 'https://pootle-cloud.firebaseio.com/comm.json?orderBy=%22love%22&startAt=2', function ( data ) {
-		if( typeof data === 'object' && data ) {
-			var tpls = [];
-			for ( var tpl in data ) {
-				tpls.push( data[tpl] );
-			}
-			pcld.populateTemplates(
-				$communitydesigns,
-				tpls,
-				function( tpl, $tpl ) {
-					if ( tpl.author ) {
-						var $author = $( '<div/>' ).addClass( 'tpl-author' );
-						if ( tpl.authorLink ) {
-							$author.html( '<a href="' + tpl.authorLink + '">' + tpl.author + '</a>' );
-						} else {
-							$author.html( tpl.author );
-						}
-						$tpl.prepend( $author );
-					}
-				}
-			);
-		} else {
-			console.error( 'Failed to get community templates data' );
-		}
+	$communitydesigns.on( 'click', '.fa-heart', function ( e ) {
+		e.stopPropagation();
+		pcld.appMsg( 'loveTpl', $( this ).closest( '.ppb-tpl' ).data( 'id' ) );
 	} );
 
 	window.addEventListener( 'message', pcld.receiveMessage, false );
