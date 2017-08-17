@@ -50,7 +50,10 @@ jQuery( function ( $ ) {
 	$( '#pcld-template-tabs' ).ppbTabs();
 	pcld = {
 		// Post message actions
-		populateTemplates: function ( $templates, tpls ) {
+		populateTemplates: function ( $templates, tpls, callback ) {
+			if ( typeof callback !== 'function' ) {
+				callback = function() {};
+			}
 			$templates.html( '' );
 			for ( var i = 0; i < tpls.length; i ++ ) {
 				var tpl = tpls[i];
@@ -60,10 +63,11 @@ jQuery( function ( $ ) {
 					var
 						style = JSON.parse( tpl.style ),
 						color = style.background || style.grad_col1 || style.grad_col2;
-					$tpl.html( '<div class="ppb-tpl-prev" style="padding-top:52%;background:' + color + '"></div>' );
+					$tpl.html( '<div class="ppb-tpl-bg" style="padding-top:52%;background:' + color + '"></div>' );
 				} else {
 					$tpl.html( '<img src="' + tpl.img + '" alt="' + tpl.name + '"/>' );
 				}
+				callback( tpl, $tpl );
 				$tpl.append( '<i class="fa fa-search"></i>' );
 				$templates.append( $tpl );
 			}
@@ -144,13 +148,27 @@ jQuery( function ( $ ) {
 
 	};
 
-	$.get( 'https://pootle-cloud.firebaseio.com/comm.json', function ( data ) {
+	$.get( 'https://pootle-cloud.firebaseio.com/comm.json?orderBy=%22love%22&startAt=2', function ( data ) {
 		if( typeof data === 'object' && data ) {
 			var tpls = [];
 			for ( var tpl in data ) {
 				tpls.push( data[tpl] );
 			}
-			pcld.populateTemplates( $communitydesigns, tpls );
+			pcld.populateTemplates(
+				$communitydesigns,
+				tpls,
+				function( tpl, $tpl ) {
+					if ( tpl.author ) {
+						var $author = $( '<div/>' ).addClass( 'tpl-author' );
+						if ( tpl.authorLink ) {
+							$author.html( '<a href="' + tpl.authorLink + '">' + tpl.author + '</a>' );
+						} else {
+							$author.html( tpl.author );
+						}
+						$tpl.prepend( $author );
+					}
+				}
+			);
 		} else {
 			console.error( 'Failed to get community templates data' );
 		}

@@ -91,3 +91,22 @@ iframe#pcld-app {
 #pcld-my-designs > .ppb-tpl ~ h4 {
 	display: none;
 }
+
+.tpl-author:before {
+	content: 'By ';
+}
+
+.tpl-author {
+	padding: 0.25em 0.5em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: rgba(255,255,255,0.5);
+	color: #222;
+	transition: 0.5s top;
+}
+
+.ppb-tpl:hover .tpl-author {
+	top: -99px;
+}
