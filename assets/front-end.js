@@ -111,6 +111,11 @@ jQuery( function ( $ ) {
 
 			loggedOut: function () {
 				$bd.removeClass( 'pcld-logged-in' );
+				var msg = '<h4>Please ' +
+					'<a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a>' +
+					' and save some templates.</h4>';
+				$mydesigns.html( msg );
+				$communitydesigns.html( msg );
 			},
 
 			templates: function ( tpls ) {
@@ -199,7 +204,7 @@ jQuery( function ( $ ) {
 		},
 
 		logout: function () {
-			pcld.appMsg( { pcldCallback: 'logout' }, '*' );
+			pcld.appMsg( 'logout' );
 		},
 
 		loginPopup: function () {

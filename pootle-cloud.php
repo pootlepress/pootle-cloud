@@ -147,9 +147,7 @@ class Pootle_Cloud{
 			</div>
 			<div class="template pcld-tpls" id="pcld-comm-designs">
 				<h4>
-					Couldn't find any community templates, please
-					<a href="https://www.pootlepress.com/support-form/" style="color: #28d">contact support</a>
-					if your internet connection is working.
+					Please <a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a> to grab contributed community templates.
 				</h4>
 			</div>
 			<div class="template pcld-tpls templates-wrap" id="pcld-my-designs">
