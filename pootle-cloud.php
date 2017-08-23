@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Pootle Cloud
-Plugin URI: http://pootlepress.com/
+Plugin URI: https://github.com/pootlepress/pootle-cloud
 Description: A happy place :)
 Author: Pootlepress
 Version: 1.0.0
