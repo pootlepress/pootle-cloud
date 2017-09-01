@@ -119,6 +119,9 @@ jQuery( function ( $ ) {
 			},
 
 			templates: function ( tpls ) {
+
+				if ( ! tpls || ! tpls.length ) return;
+
 				pcld.templates = tpls;
 				pcld.populateTemplates( $mydesigns, tpls );
 				$mydesigns.append(
@@ -130,6 +133,9 @@ jQuery( function ( $ ) {
 			},
 
 			commTpls: function (tpls) {
+
+				if ( ! tpls || ! tpls.length ) return;
+
 				pcld.contibTpls = tpls;
 
 				var
