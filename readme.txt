@@ -6,10 +6,9 @@ Plugin URI: https://github.com/pootlepress/pootle-cloud
 Tags: page builder, pagebuilder, pootlepress, pootle page builder, pootlepagebuilder, pootle pagebuilder, layout, layouts, layout builder, layout customizer, content builder, landing pages, landing page builder, site origin
 Author URI: http://www.pootlepress.com
 Author: PootlePress
-Donate link:
 Requires at least: 4.1.0
-Tested up to: 4.7.0
-Stable tag: 4.1.1
+Tested up to: 4.8.2
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +17,8 @@ Save and reuse Pootle Pagebuilder templates across websites.
 == Description ==
 
 PootleCloud will let you save your Pootle Pagebuilder designs to the cloud so that you can reuse them, either on the website you are working on, or on any website around the globe :)
+
+**Needs Pootle Pagebuilder Pro**
 
 Saving templates to pootle cloud...
 
@@ -68,5 +69,5 @@ We encourage everyone to contribute their ideas, thoughts and code snippets. Thi
 == Changelog ==
 
 = 1.0.0 =
-* 2017-xx-xx
+* 2017-09-21
 * Initial release. It's alive!

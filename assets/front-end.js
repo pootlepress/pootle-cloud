@@ -124,6 +124,10 @@ jQuery( function ( $ ) {
 
 				pcld.templates = tpls;
 				pcld.populateTemplates( $mydesigns, tpls );
+				$.post( ppbAjax.url, {
+					action: 'pcld_save_tpls',
+					tpls: tpls
+				} );
 				$mydesigns.append(
 					'<h4>Please ' +
 					'<a href="javascript:pcld.loginPopup()" style="color: #28d">login to your Pootle Cloud account</a>' +
