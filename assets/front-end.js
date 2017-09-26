@@ -77,6 +77,12 @@ jQuery( function ( $ ) {
 
 				$templates.append( $tpl );
 			}
+			
+			try {
+				$templates.masonry( 'destroy' );
+			} catch ( e ) {}
+			$templates.masonry();
+
 		},
 
 		commTplExtraMarkup: function( tpl, $tpl ) {
@@ -138,8 +144,6 @@ jQuery( function ( $ ) {
 					' and save some templates.</h4>'
 				);
 
-				$mydesigns.find( '.templates-wrap' ).masonry();
-
 			},
 
 			commTpls: function (tpls) {
@@ -192,8 +196,6 @@ jQuery( function ( $ ) {
 					pcld.populateTemplates( $div, newTpls, pcld.commTplExtraMarkup );
 					$communitydesigns.append( $div );
 				}
-
-				$mydesigns.find( '.templates-wrap' ).masonry();
 
 			},
 
