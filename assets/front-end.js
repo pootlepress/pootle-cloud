@@ -44,7 +44,11 @@ jQuery( function ( $ ) {
 		}
 	} );
 
-	$( '#pcld-template-tabs' ).ppbTabs();
+	$( '#pcld-template-tabs' ).ppbTabs( {
+		activate: function() {
+			$( this ).find( '.templates-wrap' ).masonry();
+		}
+	} );
 	pcld = {
 		// Post message actions
 		populateTemplates: function ( $templates, tpls, callback ) {
@@ -134,6 +138,8 @@ jQuery( function ( $ ) {
 					' and save some templates.</h4>'
 				);
 
+				$mydesigns.find( '.templates-wrap' ).masonry();
+
 			},
 
 			commTpls: function (tpls) {
@@ -186,6 +192,8 @@ jQuery( function ( $ ) {
 					pcld.populateTemplates( $div, newTpls, pcld.commTplExtraMarkup );
 					$communitydesigns.append( $div );
 				}
+
+				$mydesigns.find( '.templates-wrap' ).masonry();
 
 			},
 
