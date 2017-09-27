@@ -4,7 +4,7 @@ Plugin Name: Pootle Cloud
 Plugin URI: https://github.com/pootlepress/pootle-cloud
 Description: A happy place :)
 Author: Pootlepress
-Version: 1.0.0
+Version: 1.1.0
 Author URI: http://pootlepress.com/
 @developer shramee <shramee.srivastav@gmail.com>
 */
